@@ -8,6 +8,7 @@ const { verifyToken } = require('./token/token')
 
 const goods = require('./router/goods/goods')
 const login = require('./router/login/login')
+const admin_user = require('./router/admin_user/admin_user')
 
 const serve = new Koa()
 const router = new KoaRouter()
@@ -49,6 +50,7 @@ serve.use(koaBody({
 serve.use(router.routes());
 serve.use(login.routes(), login.allowedMethods());
 serve.use(goods.routes(), goods.allowedMethods());
+serve.use(admin_user.routes(), admin_user.allowedMethods());
 
 router.get('/', async ctx => {
   ctx.body = {
