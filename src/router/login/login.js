@@ -7,11 +7,11 @@ const { generateToken, verifyToken } = require('../../token/token')
 router.prefix('/login');
 // 登录
 router.post('/', async ctx => {
-  let { username, password } = ctx.request.body.data
+  let { username, password } = ctx.request.body
   // 判断用户名或密码是否为空
   if (!username || !password) {
-    ctx.status = 400
     ctx.body = {
+      status: 0,
       message: '用户名或密码为空！',
       data: null
     }
@@ -21,8 +21,8 @@ router.post('/', async ctx => {
   const queryResult = await AdminUserModel.findOne({ username })
   // queryResult如果为空，则用户名错误
   if (!queryResult) {
-    ctx.status = 400
     ctx.body = {
+      status: 0,
       message: '用户名或密码不正确！',
       data: null
     }
@@ -31,8 +31,8 @@ router.post('/', async ctx => {
   // 判断密码是否正确
   password = md5(password)
   if (password != queryResult.password) {
-    ctx.status = 400
     ctx.body = {
+      status: 0,
       message: '用户名或密码不正确！',
       data: null
     }
